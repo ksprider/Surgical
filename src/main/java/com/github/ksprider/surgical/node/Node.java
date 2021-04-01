@@ -1,4 +1,4 @@
-package com.github.kspider.surgical.node;
+package com.github.ksprider.surgical.node;
 
 import java.util.HashMap;
 import java.util.HashSet;

@@ -1,9 +1,9 @@
-package com.github.kspider.surgical.spring.mvc;
+package com.github.ksprider.surgical.spring.mvc;
 
-import com.github.kspider.surgical.CustomFilterProvider;
-import com.github.kspider.surgical.SerializationHandler;
-import com.github.kspider.surgical.TreeHandler;
-import com.github.kspider.surgical.node.Node;
+import com.github.ksprider.surgical.CustomFilterProvider;
+import com.github.ksprider.surgical.SerializationHandler;
+import com.github.ksprider.surgical.TreeHandler;
+import com.github.ksprider.surgical.node.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -23,7 +23,7 @@ public class JSONResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     private TreeHandler<Node> treeHandler;
     private SerializationHandler<Node> serializationHandler;
-    private Map<String, CustomFilterProvider> cache = new HashMap<>();
+    private final Map<String, CustomFilterProvider> cache = new HashMap<>();
 
     @Autowired
     public void setTreeHandler(TreeHandler<Node> treeHandler) {

@@ -1,4 +1,4 @@
-package com.github.kspider.surgical;
+package com.github.ksprider.surgical;
 
 import com.fasterxml.jackson.core.JsonStreamContext;
 

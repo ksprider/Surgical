@@ -1,4 +1,4 @@
-package com.github.kspider.surgical;
+package com.github.ksprider.surgical;
 
 public interface TreeHandler<T> {
 

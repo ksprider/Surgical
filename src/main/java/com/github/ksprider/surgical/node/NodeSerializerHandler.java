@@ -1,7 +1,7 @@
-package com.github.kspider.surgical.node;
+package com.github.ksprider.surgical.node;
 
 import com.fasterxml.jackson.core.JsonStreamContext;
-import com.github.kspider.surgical.SerializationHandler;
+import com.github.ksprider.surgical.SerializationHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;

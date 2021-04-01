@@ -1,10 +1,12 @@
-package com.github.kspider.surgical.spring.mvc;
+package com.github.ksprider.surgical.spring.mvc;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+
+import java.io.Serializable;
 
 @Configuration
 public class ObjectMapperConfig implements InitializingBean {
@@ -18,7 +20,7 @@ public class ObjectMapperConfig implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        objectMapper.addMixIn(Object.class, CustomPropertyFilterMixIn.class);
+        objectMapper.addMixIn(Serializable.class, CustomPropertyFilterMixIn.class);
     }
 
     @JsonFilter("customPropertyFilter")

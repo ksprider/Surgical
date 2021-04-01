@@ -1,4 +1,4 @@
-package com.github.kspider.surgical;
+package com.github.ksprider.surgical;
 
 import com.fasterxml.jackson.databind.ser.BeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
@@ -6,15 +6,9 @@ import com.fasterxml.jackson.databind.ser.PropertyFilter;
 
 public class CustomFilterProvider<T> extends FilterProvider {
 
-    private final T root;
-    private final SerializationHandler<T> serializerHandler;
-    private final String location;
     private final CustomPropertyFilter customPropertyFilter;
 
     public CustomFilterProvider(T root, SerializationHandler<T> serializerHandler, String location) {
-        this.root = root;
-        this.serializerHandler = serializerHandler;
-        this.location = location;
         this.customPropertyFilter = new CustomPropertyFilter<>(root, serializerHandler, location);
     }
 
