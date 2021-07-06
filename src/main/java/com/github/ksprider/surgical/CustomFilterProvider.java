@@ -8,8 +8,8 @@ public class CustomFilterProvider<T> extends FilterProvider {
 
     private final CustomPropertyFilter customPropertyFilter;
 
-    public CustomFilterProvider(T root, SerializationHandler<T> serializerHandler, String location) {
-        this.customPropertyFilter = new CustomPropertyFilter<>(root, serializerHandler, location);
+    public CustomFilterProvider(T root, SerializationHandler<T> serializerHandler, String location, boolean isAll) {
+        this.customPropertyFilter = new CustomPropertyFilter<>(root, serializerHandler, location, isAll);
     }
 
     @SuppressWarnings("deprecation")

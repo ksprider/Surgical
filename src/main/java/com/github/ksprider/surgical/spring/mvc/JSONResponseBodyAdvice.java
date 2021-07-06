@@ -6,6 +6,7 @@ import com.github.ksprider.surgical.TreeHandler;
 import com.github.ksprider.surgical.node.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
@@ -13,10 +14,12 @@ import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @ControllerAdvice
 public class JSONResponseBodyAdvice implements ResponseBodyAdvice<Object> {
@@ -37,7 +40,12 @@ public class JSONResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> converterType) {
-        return AbstractJackson2HttpMessageConverter.class.isAssignableFrom(converterType) && methodParameter.getMethod().isAnnotationPresent(JSON.class);
+        return AbstractJackson2HttpMessageConverter.class.isAssignableFrom(converterType) &&
+                (
+                        methodParameter.hasMethodAnnotation(JSON.class)
+                        || AnnotatedElementUtils.hasAnnotation(methodParameter.getContainingClass(), ResponseBody.class)
+                        || methodParameter.hasMethodAnnotation(ResponseBody.class)
+                );
     }
 
     @Override
@@ -45,10 +53,11 @@ public class JSONResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         JSON jsonAnnotation = methodParameter.getMethod().getAnnotation(JSON.class);
         String key = methodParameter.getExecutable().toString();
         CustomFilterProvider customFilterProvider = cache.computeIfAbsent(key, (it) -> {
-            Node root = treeHandler.treefy(jsonAnnotation.value());
-            return new CustomFilterProvider(root, serializationHandler, key);
+            boolean isAll = null == jsonAnnotation;
+            String treeStr = isAll ? "*" : jsonAnnotation.value();
+            Node root = treeHandler.treefy(treeStr);
+            return new CustomFilterProvider(root, serializationHandler, key, isAll);
         });
-
         MappingJacksonValue value = new MappingJacksonValue(o);
         value.setFilters(customFilterProvider);
         return value;

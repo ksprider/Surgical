@@ -17,12 +17,14 @@ public class CustomPropertyFilter<T> extends SimpleBeanPropertyFilter {
     private final T t;
     private final SerializationHandler<T> serializerHandler;
     private final String location;
+    private final boolean isAll;
     private final Map<String, Boolean> cache = new HashMap<>();
 
-    public CustomPropertyFilter(T t, SerializationHandler<T> serializerHandler, String location) {
+    public CustomPropertyFilter(T t, SerializationHandler<T> serializerHandler, String location, boolean isAll) {
         this.t = t;
         this.serializerHandler = serializerHandler;
         this.location = location;
+        this.isAll = isAll;
     }
 
     @SuppressWarnings("unchecked")
@@ -34,7 +36,7 @@ public class CustomPropertyFilter<T> extends SimpleBeanPropertyFilter {
         }
 
         String key = getKey(gen.getOutputContext(), writer.getName());
-        boolean serialize = cache.computeIfAbsent(key, it -> {
+        boolean serialize = isAll || cache.computeIfAbsent(key, it -> {
             T ot = (T) BeanUtils.instantiateClass(t.getClass());
             BeanUtils.copyProperties(t, ot);
             return serializerHandler.isSerialize(gen.getOutputContext(), writer.getName(), ot);
