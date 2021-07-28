@@ -51,7 +51,7 @@ public class JSONResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
         JSON jsonAnnotation = methodParameter.getMethod().getAnnotation(JSON.class);
-        String key = methodParameter.getExecutable().toString();
+        String key = methodParameter.getMethod().toString();
         CustomFilterProvider customFilterProvider = cache.computeIfAbsent(key, (it) -> {
             boolean isAll = null == jsonAnnotation;
             String treeStr = isAll ? "*" : jsonAnnotation.value();

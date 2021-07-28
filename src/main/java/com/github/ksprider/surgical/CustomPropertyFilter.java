@@ -34,9 +34,7 @@ public class CustomPropertyFilter<T> extends SimpleBeanPropertyFilter {
             writer.serializeAsField(pojo, gen, prov);
             return;
         }
-
-        String key = getKey(gen.getOutputContext(), writer.getName());
-        boolean serialize = isAll || cache.computeIfAbsent(key, it -> {
+        boolean serialize = isAll || cache.computeIfAbsent(getKey(gen.getOutputContext(), writer.getName()), it -> {
             T ot = (T) BeanUtils.instantiateClass(t.getClass());
             BeanUtils.copyProperties(t, ot);
             return serializerHandler.isSerialize(gen.getOutputContext(), writer.getName(), ot);
