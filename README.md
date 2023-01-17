@@ -9,7 +9,7 @@ A tool for dynamically filtering entity properties based on Jackson.
 <dependency>
     <groupId>com.github.ksprider</groupId>
     <artifactId>Surgical</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.5</version>
 </dependency>
 ```
 2. Enable Surgical with `@EnableJSON`
